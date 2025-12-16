@@ -1,0 +1,29 @@
+EVENT HANDLING :
+APP.JSX 
+
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import EventHandlingExample from './core concepts/Helloworld/EventHandling'
+
+export default function App() {
+  return<EventHandlingExample/>
+}
+
+
+EVENT HANDLING.JSX:
+
+import { useState } from "react";
+export default function EventHandlingExample(){
+    const [message,setMessage]=useState("");
+
+const handleChange=(event)=> {
+    setMessage(event.target.value)
+}
+return<>
+<h1>Event Handling Example</h1>
+<input type="text" onChange={handleChange} placeholder="Enter Message"/>
+<p>{message}</p>
+</>
+}
