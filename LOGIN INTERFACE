@@ -1,0 +1,100 @@
+import React, { useState } from "react";
+
+const LoginInterface = () => {
+  const [loginData, setLoginData] = useState({
+    username: "",
+    role: ""
+  });
+
+  const [loggedInRole, setLoggedInRole] = useState(null);
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (!loginData.username.trim()) {
+      setError("Username is required");
+      return;
+    }
+
+    if (!loginData.role) {
+      setError("Please select a role");
+      return;
+    }
+
+    setError("");
+    setLoggedInRole(loginData.role);
+  };
+
+  // 🔁 Role-based redirect simulation
+  if (loggedInRole === "admin") {
+    return <h2>Welcome Admin 👨‍💼 | Admin Dashboard</h2>;
+  }
+
+  if (loggedInRole === "instructor") {
+    return <h2>Welcome Instructor 👩‍🏫 | Instructor Panel</h2>;
+  }
+
+  if (loggedInRole === "student") {
+    return <h2>Welcome Student 🎓 | Student Home</h2>;
+  }
+
+  return (
+    <div style={{ maxWidth: "350px", margin: "50px auto" }}>
+      <h2>Login</h2>
+
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Username:</label><br />
+          <input
+            type="text"
+            name="username"
+            value={loginData.username}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div>
+          <label>Select Role:</label><br />
+          <select
+            name="role"
+            value={loginData.role}
+            onChange={handleChange}
+          >
+            <option value="">-- Choose Role --</option>
+            <option value="admin">Admin</option>
+            <option value="instructor">Instructor</option>
+            <option value="student">Student</option>
+          </select>
+        </div>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
+
+export default LoginInterface;
+
+
+import React from "react";
+import LoginInterface from "./LoginInterface";
+
+const App = () => {
+  return (
+    <div>
+      <LoginInterface />
+    </div>
+  );
+};
+
+export default App;
