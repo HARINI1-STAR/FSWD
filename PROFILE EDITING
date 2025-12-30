@@ -1,0 +1,119 @@
+import React, { useState } from "react";
+
+const ProfileEditing = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    age: ""
+  });
+
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is not valid";
+    }
+
+    if (formData.age) {
+      const ageNum = Number(formData.age);
+      if (isNaN(ageNum) || ageNum < 13) {
+        newErrors.age = "Age must be a number 13 or older";
+      }
+    }
+
+    return newErrors;
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length === 0) {
+      setErrors({});
+      setSubmitted(true);
+      console.log("Profile Updated:", formData);
+    } else {
+      setErrors(validationErrors);
+      setSubmitted(false);
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: "400px", margin: "0 auto" }}>
+      <h2>Edit Profile</h2>
+
+      <form onSubmit={handleSubmit} noValidate>
+        <div>
+          <label>Name:</label><br />
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+        </div>
+
+        <div>
+          <label>Email:</label><br />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+        </div>
+
+        <div>
+          <label>Age:</label><br />
+          <input
+            type="number"
+            name="age"
+            value={formData.age}
+            onChange={handleChange}
+          />
+          {errors.age && <p style={{ color: "red" }}>{errors.age}</p>}
+        </div>
+
+        <button type="submit">Save Profile</button>
+      </form>
+
+      {submitted && (
+        <p style={{ color: "green" }}>Profile updated successfully!</p>
+      )}
+    </div>
+  );
+};
+
+export default ProfileEditing;
+
+
+import React from "react";
+import ProfileEditing from "./ProfileEditing";
+
+const App = () => {
+  return (
+    <div>
+      <ProfileEditing />
+    </div>
+  );
+};
+
+export default App;
