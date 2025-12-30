@@ -1,0 +1,110 @@
+import React from "react";
+
+const Notification = ({ notification, onRemove }) => {
+  return (
+    <div style={styles.notification}>
+      <div>
+        <strong>{notification.title}</strong>
+        <p style={styles.message}>{notification.message}</p>
+      </div>
+
+      <button
+        onClick={() => onRemove(notification.id)}
+        style={styles.closeButton}
+      >
+        ✖
+      </button>
+    </div>
+  );
+};
+
+const styles = {
+  notification: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f1f5f9",
+    border: "1px solid #cbd5e1",
+    borderRadius: "6px",
+    padding: "10px",
+    marginBottom: "10px",
+  },
+  message: {
+    margin: "5px 0 0",
+    fontSize: "14px",
+  },
+  closeButton: {
+    background: "transparent",
+    border: "none",
+    fontSize: "16px",
+    cursor: "pointer",
+  },
+};
+
+export default Notification;
+
+
+
+import React, { useState } from "react";
+import Notification from "./Notification";
+
+const App = () => {
+  const [notifications, setNotifications] = useState([]);
+
+  const addNotification = () => {
+    const newNotification = {
+      id: Date.now(),
+      title: "New Alert",
+      message: "You have a new dashboard notification.",
+    };
+
+    setNotifications([newNotification, ...notifications]);
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(notifications.filter((n) => n.id !== id));
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2>Dashboard Notifications</h2>
+
+      <button onClick={addNotification} style={styles.button}>
+        Add Notification
+      </button>
+
+      <div style={styles.notificationList}>
+        {notifications.length === 0 && (
+          <p style={{ color: "#64748b" }}>No notifications</p>
+        )}
+
+        {notifications.map((notification) => (
+          <Notification
+            key={notification.id}
+            notification={notification}
+            onRemove={removeNotification}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    width: "400px",
+    margin: "40px auto",
+    textAlign: "center",
+  },
+  button: {
+    padding: "10px",
+    fontSize: "16px",
+    marginBottom: "20px",
+    cursor: "pointer",
+  },
+  notificationList: {
+    textAlign: "left",
+  },
+};
+
+export default App;
