@@ -1,0 +1,76 @@
+import React from "react";
+
+const EventRegistration = () => {
+  const registerForEvent = () => {
+    // Ask for user's name
+    const name = prompt("Enter your full name:");
+    if (!name) {
+      alert("Registration cancelled. Name is required.");
+      return;
+    }
+
+    // Ask for email
+    const email = prompt("Enter your email address:");
+    if (!email) {
+      alert("Registration cancelled. Email is required.");
+      return;
+    }
+
+    // Ask for event type
+    const eventType = prompt(
+      "Select the event type:\n1. Workshop\n2. Seminar\n3. Webinar"
+    );
+
+    let event;
+    if (eventType === "1") event = "Workshop";
+    else if (eventType === "2") event = "Seminar";
+    else if (eventType === "3") event = "Webinar";
+    else {
+      alert("Invalid event type selected. Registration cancelled.");
+      return;
+    }
+
+    // Ask for number of attendees
+    const attendees = prompt("Enter number of attendees:");
+    if (!attendees || isNaN(attendees) || attendees <= 0) {
+      alert("Invalid number of attendees. Registration cancelled.");
+      return;
+    }
+
+    // Confirm registration
+    const confirmRegistration = confirm(
+      `Please confirm your registration:\nName: ${name}\nEmail: ${email}\nEvent: ${event}\nNumber of attendees: ${attendees}`
+    );
+
+    if (confirmRegistration) {
+      alert("Registration successful! See you at the event.");
+    } else {
+      alert("Registration cancelled.");
+    }
+  };
+
+  return (
+    <div>
+      <h2>Event Registration</h2>
+      <button onClick={registerForEvent}>Register Now</button>
+    </div>
+  );
+};
+
+export default EventRegistration;
+
+
+
+import React from "react";
+import EventRegistration from "./eventRegistration";
+
+const App = () => {
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>Welcome to Our Events</h1>
+      <EventRegistration />
+    </div>
+  );
+};
+
+export default App;
