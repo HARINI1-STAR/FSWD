@@ -1,0 +1,69 @@
+import React from "react";
+
+const HotelReservation = () => {
+  const makeReservation = () => {
+    // Ask for user's name
+    const name = prompt("Enter your name:");
+
+    if (!name) {
+      alert("Reservation cancelled. Name is required.");
+      return;
+    }
+
+    // Ask for room type
+    const roomType = prompt(
+      "Select room type:\n1. Single\n2. Double\n3. Suite"
+    );
+
+    let room;
+    if (roomType === "1") room = "Single";
+    else if (roomType === "2") room = "Double";
+    else if (roomType === "3") room = "Suite";
+    else {
+      alert("Invalid room type selected. Reservation cancelled.");
+      return;
+    }
+
+    // Ask for number of nights
+    const nights = prompt("Enter number of nights:");
+    if (!nights || isNaN(nights) || nights <= 0) {
+      alert("Invalid number of nights. Reservation cancelled.");
+      return;
+    }
+
+    // Confirm reservation
+    const confirmReservation = confirm(
+      `Confirm reservation for ${name}:\nRoom Type: ${room}\nNights: ${nights}`
+    );
+
+    if (confirmReservation) {
+      alert("Reservation successful! Thank you.");
+    } else {
+      alert("Reservation cancelled.");
+    }
+  };
+
+  return (
+    <div>
+      <h2>Hotel Reservation System</h2>
+      <button onClick={makeReservation}>Make a Reservation</button>
+    </div>
+  );
+};
+
+export default HotelReservation;
+
+
+import React from "react";
+import HotelReservation from "./HotelReservation";
+
+const App = () => {
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>Welcome to Our Hotel</h1>
+      <HotelReservation />
+    </div>
+  );
+};
+
+export default App;
