@@ -1,0 +1,75 @@
+function FlightBooking() {
+  const bookTicket = () => {
+    // Step 1: Get passenger name
+    const name = prompt("Enter your full name:");
+    if (!name || name.trim() === "") {
+      alert("Booking cancelled: Name is required.");
+      return;
+    }
+
+    // Step 2: Get flight destination
+    const destination = prompt("Enter your flight destination:");
+    if (!destination || destination.trim() === "") {
+      alert("Booking cancelled: Destination is required.");
+      return;
+    }
+
+    // Step 3: Get number of tickets
+    const tickets = prompt("Enter number of tickets to book:");
+    const ticketsNum = Number(tickets);
+
+    if (!tickets || isNaN(ticketsNum) || ticketsNum <= 0) {
+      alert("Booking cancelled: Please enter a valid number of tickets.");
+      return;
+    }
+
+    // Step 4: Confirm booking details
+    const confirmMsg = `Please confirm your booking details:\n
+Name: ${name.trim()}
+Destination: ${destination.trim()}
+Number of Tickets: ${ticketsNum}\n
+Do you want to confirm the booking?`;
+
+    const isConfirmed = confirm(confirmMsg);
+
+    if (isConfirmed) {
+      alert(`Thank you, ${name.trim()}! Your flight to ${destination.trim()} for ${ticketsNum} ticket(s) has been booked.`);
+    } else {
+      alert("Booking cancelled.");
+    }
+  };
+
+  return (
+    <div style={{ fontFamily: "Arial", padding: 20 }}>
+      <h2>Flight Ticket Booking</h2>
+      <button onClick={bookTicket} style={buttonStyle}>
+        Book Flight Ticket
+      </button>
+    </div>
+  );
+}
+
+const buttonStyle = {
+  padding: "10px 20px",
+  fontSize: 16,
+  cursor: "pointer",
+  backgroundColor: "#0077cc",
+  color: "white",
+  border: "none",
+  borderRadius: 5,
+};
+
+export default FlightBooking;
+
+
+import FlightBooking from "./FlightBooking";
+
+function App() {
+  return (
+    <div>
+      <FlightBooking />
+    </div>
+  );
+}
+
+export default App;
