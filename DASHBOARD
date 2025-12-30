@@ -1,0 +1,110 @@
+import { useState } from "react";
+
+function Dashboard() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+
+  const addTask = () => {
+    const trimmed = newTask.trim();
+    if (trimmed === "") return;
+
+    setTasks([...tasks, trimmed]);
+    setNewTask("");
+  };
+
+  const removeTask = (index) => {
+    setTasks(tasks.filter((_, i) => i !== index));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") addTask();
+  };
+
+  return (
+    <div style={styles.container}>
+      <h2>Task List Dashboard</h2>
+
+      <div style={styles.inputGroup}>
+        <input
+          type="text"
+          placeholder="Enter new task"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          onKeyDown={handleKeyDown}
+          style={styles.input}
+        />
+        <button onClick={addTask} style={styles.addButton}>
+          Add
+        </button>
+      </div>
+
+      <ul style={styles.list}>
+        {tasks.length === 0 && <li>No tasks yet</li>}
+
+        {tasks.map((task, index) => (
+          <li key={index} style={styles.listItem}>
+            {task}
+            <button
+              onClick={() => removeTask(index)}
+              style={styles.removeButton}
+            >
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    maxWidth: 400,
+    margin: "40px auto",
+    padding: 20,
+    fontFamily: "Arial, sans-serif",
+    border: "1px solid #ddd",
+    borderRadius: 8,
+  },
+  inputGroup: {
+    display: "flex",
+    marginBottom: 20,
+  },
+  input: {
+    flexGrow: 1,
+    padding: 8,
+    fontSize: 16,
+    borderRadius: 4,
+    border: "1px solid #ccc",
+  },
+  addButton: {
+    marginLeft: 8,
+    padding: "8px 16px",
+    fontSize: 16,
+    cursor: "pointer",
+    backgroundColor: "#4caf50",
+    color: "white",
+    border: "none",
+    borderRadius: 4,
+  },
+  list: {
+    listStyle: "none",
+    paddingLeft: 0,
+  },
+  listItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "8px 0",
+    borderBottom: "1px solid #eee",
+  },
+  removeButton: {
+    backgroundColor: "#ff4d4d",
+    border: "none",
+    color: "white",
+    cursor: "pointer",
+    padding: "4px 8px",
+    borderRadius: 4,
+  },
+};
+
+export default Dashboard;
