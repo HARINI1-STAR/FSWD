@@ -1,0 +1,65 @@
+import { useState } from "react";
+
+function AttendanceTracker() {
+  const [students, setStudents] = useState([
+    { id: 1, name: "Alice", present: false },
+    { id: 2, name: "Bob", present: false },
+    { id: 3, name: "Charlie", present: false },
+    { id: 4, name: "David", present: false },
+  ]);
+
+  const toggleAttendance = (id) => {
+    setStudents(
+      students.map((student) =>
+        student.id === id
+          ? { ...student, present: !student.present }
+          : student
+      )
+    );
+  };
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      <h2>Attendance Tracker</h2>
+
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {students.map((student) => (
+          <li
+            key={student.id}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "10px",
+            }}
+          >
+            <span>
+              {student.name} -{" "}
+              <strong style={{ color: student.present ? "green" : "red" }}>
+                {student.present ? "Present" : "Absent"}
+              </strong>
+            </span>
+
+            <button onClick={() => toggleAttendance(student.id)}>
+              Mark {student.present ? "Absent" : "Present"}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default AttendanceTracker;
+
+
+import AttendanceTracker from "./AttendanceTracker";
+
+function App() {
+  return (
+    <div>
+      <AttendanceTracker />
+    </div>
+  );
+}
+
+export default App;
