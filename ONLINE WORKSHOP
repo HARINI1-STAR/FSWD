@@ -1,0 +1,169 @@
+import React, { useState } from "react";
+
+const OnlineWorkshop = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    workshop: "",
+    experience: "",
+    agree: false
+  });
+
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value
+    });
+  };
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!formData.workshop) {
+      newErrors.workshop = "Please select a workshop";
+    }
+
+    if (!formData.agree) {
+      newErrors.agree = "You must agree to the terms";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+
+    if (Object.keys(validationErrors).length === 0) {
+      setErrors({});
+      setSubmitted(true);
+      console.log("Registration Data:", formData);
+    } else {
+      setErrors(validationErrors);
+      setSubmitted(false);
+    }
+  };
+
+  return (
+    <div style={{ display: "flex", gap: "40px", padding: "20px" }}>
+      {/* Form Section */}
+      <div style={{ width: "50%" }}>
+        <h2>Online Workshop Registration</h2>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div>
+            <label>Full Name:</label><br />
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+            />
+            {errors.fullName && <p style={{ color: "red" }}>{errors.fullName}</p>}
+          </div>
+
+          <div>
+            <label>Email:</label><br />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+          </div>
+
+          <div>
+            <label>Choose Workshop:</label><br />
+            <select
+              name="workshop"
+              value={formData.workshop}
+              onChange={handleChange}
+            >
+              <option value="">-- Select --</option>
+              <option value="React Basics">React Basics</option>
+              <option value="Advanced JavaScript">Advanced JavaScript</option>
+              <option value="UI/UX Design">UI/UX Design</option>
+            </select>
+            {errors.workshop && <p style={{ color: "red" }}>{errors.workshop}</p>}
+          </div>
+
+          <div>
+            <label>Experience Level:</label><br />
+            <textarea
+              name="experience"
+              placeholder="Briefly describe your experience"
+              value={formData.experience}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <input
+              type="checkbox"
+              name="agree"
+              checked={formData.agree}
+              onChange={handleChange}
+            />{" "}
+            I agree to the terms and conditions
+            {errors.agree && <p style={{ color: "red" }}>{errors.agree}</p>}
+          </div>
+
+          <button type="submit">Register</button>
+        </form>
+
+        {submitted && (
+          <p style={{ color: "green" }}>
+            Registration successful!
+          </p>
+        )}
+      </div>
+
+      {/* Live Preview Section */}
+      <div style={{ width: "50%", background: "#f9f9f9", padding: "20px" }}>
+        <h3>Live Preview</h3>
+        <p><strong>Name:</strong> {formData.fullName || "—"}</p>
+        <p><strong>Email:</strong> {formData.email || "—"}</p>
+        <p><strong>Workshop:</strong> {formData.workshop || "—"}</p>
+        <p><strong>Experience:</strong></p>
+        <p>{formData.experience || "—"}</p>
+        <p>
+          <strong>Agreed to Terms:</strong>{" "}
+          {formData.agree ? "Yes" : "No"}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default OnlineWorkshop;
+
+
+
+import React from "react";
+import OnlineWorkshop from "./OnlineWorkshop";
+
+const App = () => {
+  return (
+    <div>
+      <OnlineWorkshop />
+    </div>
+  );
+};
+
+export default App;
