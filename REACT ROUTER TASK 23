@@ -1,0 +1,98 @@
+import React from "react";
+
+export const Home = () => (
+  <div>
+    <h2>🏠 Dashboard Home</h2>
+    <p>Welcome to the student dashboard.</p>
+  </div>
+);
+
+export const Profile = () => (
+  <div>
+    <h2>👤 Student Profile</h2>
+    <p>Name: John Doe</p>
+    <p>Course: Computer Science</p>
+  </div>
+);
+
+export const Courses = () => (
+  <div>
+    <h2>📚 My Courses</h2>
+    <ul>
+      <li>React Basics</li>
+      <li>Data Structures</li>
+      <li>Web Development</li>
+    </ul>
+  </div>
+);
+
+export const Grades = () => (
+  <div>
+    <h2>📊 Grades</h2>
+    <p>React: A</p>
+    <p>DSA: B+</p>
+    <p>Web Dev: A−</p>
+  </div>
+);
+
+
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+} from "react-router-dom";
+
+import { Home, Profile, Courses, Grades } from "./ReactRouter";
+
+const App = () => {
+  return (
+    <Router>
+      <div style={styles.container}>
+        <h1>🎓 Student Dashboard</h1>
+
+        <nav style={styles.nav}>
+          <Link to="/" style={styles.link}>Home</Link>
+          <Link to="/profile" style={styles.link}>Profile</Link>
+          <Link to="/courses" style={styles.link}>Courses</Link>
+          <Link to="/grades" style={styles.link}>Grades</Link>
+        </nav>
+
+        <div style={styles.content}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/grades" element={<Grades />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
+};
+
+const styles = {
+  container: {
+    width: "500px",
+    margin: "40px auto",
+    textAlign: "center",
+  },
+  nav: {
+    display: "flex",
+    justifyContent: "space-around",
+    marginBottom: "20px",
+  },
+  link: {
+    textDecoration: "none",
+    fontWeight: "bold",
+    color: "#2563eb",
+  },
+  content: {
+    border: "1px solid #ddd",
+    padding: "20px",
+    borderRadius: "8px",
+  },
+};
+
+export default App;
