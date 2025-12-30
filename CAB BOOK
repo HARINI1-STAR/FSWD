@@ -1,0 +1,74 @@
+import React from "react";
+
+const CabBooking = () => {
+  const bookCab = () => {
+    // Ask for user's name
+    const name = prompt("Enter your name:");
+    if (!name) {
+      alert("Booking cancelled. Name is required.");
+      return;
+    }
+
+    // Ask for pickup location
+    const pickup = prompt("Enter your pickup location:");
+    if (!pickup) {
+      alert("Booking cancelled. Pickup location is required.");
+      return;
+    }
+
+    // Ask for drop location
+    const drop = prompt("Enter your drop location:");
+    if (!drop) {
+      alert("Booking cancelled. Drop location is required.");
+      return;
+    }
+
+    // Ask for cab type
+    const cabType = prompt(
+      "Select cab type:\n1. Mini\n2. Sedan\n3. SUV"
+    );
+
+    let cab;
+    if (cabType === "1") cab = "Mini";
+    else if (cabType === "2") cab = "Sedan";
+    else if (cabType === "3") cab = "SUV";
+    else {
+      alert("Invalid cab type selected. Booking cancelled.");
+      return;
+    }
+
+    // Confirm booking
+    const confirmBooking = confirm(
+      `Confirm your cab booking:\nName: ${name}\nPickup: ${pickup}\nDrop: ${drop}\nCab Type: ${cab}`
+    );
+
+    if (confirmBooking) {
+      alert("Cab booked successfully! Driver will arrive shortly.");
+    } else {
+      alert("Booking cancelled.");
+    }
+  };
+
+  return (
+    <div>
+      <h2>Online Cab Booking</h2>
+      <button onClick={bookCab}>Book a Cab</button>
+    </div>
+  );
+};
+
+export default CabBooking;
+
+import React from "react";
+import CabBooking from "./CabBooking";
+
+const App = () => {
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>Welcome to QuickCab</h1>
+      <CabBooking />
+    </div>
+  );
+};
+
+export default App;
